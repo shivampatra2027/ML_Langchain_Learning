@@ -5,12 +5,9 @@ embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L
 documents=[
     "Delhi is the caps of india",
     "Kolkata is the caps of west bangal",
-    "Paris is the caps of France"
+    "Paris is the caps of France",
 ]
 
 result = embedding.embed_documents(documents);
-print(str(result))
-# Generate embedding vector
-
-# Print the vector
+print(str(result)) 
 
