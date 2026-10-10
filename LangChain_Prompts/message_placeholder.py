@@ -1,6 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 
-
 chat_template = ChatPromptTemplate([
     ("system","You are a helpful customer support agent"),  
     MessagesPlaceholder(variable_name='chat_history'), #MessagePlaceholder->to retrive and store chat history.
