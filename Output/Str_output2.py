@@ -1,3 +1,4 @@
+from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -13,8 +14,16 @@ prompt = PromptTemplate(
     input_variables=["topic"]
 )
 
-chain = prompt | model
+parser=StrOutputParser() #parse the string.
+
+prompt2 = PromptTemplate(
+    template = "Write the 5 line summary on the following {text}",
+    input_variables=['text']
+)
+
+
+chain = prompt | model | parser | prompt2 | model | parser
 
 result = chain.invoke({"topic": "India"});
 
-print(result.content)
+print(result)
