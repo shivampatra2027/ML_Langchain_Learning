@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel, Field
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -35,7 +34,6 @@ template = PromptTemplate(
         "format_instructions": parser.get_format_instructions()
     }
 )
-
 
 # 5. Format the prompt
 prompt = template.format(place="India")
