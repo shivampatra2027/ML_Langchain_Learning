@@ -42,6 +42,10 @@ parallel_chain = RunnableParallel(
     quiz=chain2
 )
 
+parallel_result = parallel_chain.invoke({
+    'topic':'India'
+})
+# print(parallel_result['topic'])
 merge_chain = prompt3 | model1 | parser
 
 chain = parallel_chain | merge_chain
@@ -53,11 +57,11 @@ result = chain.invoke({
 print("Printing full result:\n")
 # print(result) 
 
-# chain.get_graph().print_ascii();  #Run this to see the magic.
+chain.get_graph().print_ascii();  #Run this to see the magic.
 
 
 # print('\nPrinting notes\n')
-print(result['notes'])
+# print(parallel_chain['notes'])
 
 # print('\nPrinting quiz\n')
 # print(result['quiz'])

@@ -16,16 +16,20 @@ from gemini_client import invoke_with_fallback
 
 load_dotenv()
 
+
+#This code is for if you want to use direct api from .env
 # model = ChatGoogleGenerativeAI(
 #     model="gemini-2.5-flash",
 #     temperature=0.5
 # )
 
+#This code if u want to use api from gemini.client.py
 model = RunnableLambda(
     lambda prompt_value: invoke_with_fallback(
         prompt_value.to_string()
     )
 )
+
 class Feedback(BaseModel):
     sentiment: Literal["positive", "negative"] = Field(
         description="Sentiment of the feedback: positive or negative"
@@ -43,7 +47,7 @@ prompt1 = PromptTemplate(
     input_variables=["feedback"],
     partial_variables={
         "format_instruction": parser2.get_format_instructions()
-    }
+    } 
 )
 
 classifier_chain = prompt1 | model | parser2
@@ -71,7 +75,6 @@ branch_chain=RunnableBranch(
 chain=classifier_chain | branch_chain
 result =chain.invoke({'feedback':'This is a terrible phone'});
 # print(result);
-# print(result)
+print(result)
 # print(result.sentiment)
-chain.get_graph().print_ascii();
-
+# chain.get_graph().print_ascii();

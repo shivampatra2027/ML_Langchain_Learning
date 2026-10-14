@@ -17,8 +17,9 @@ v1 = embedding.embed_query(text1);
 v2 = embedding.embed_query(text2);
 v3 = embedding.embed_query(text3);
 
-print(cosine_similarity([v1],[v2]));
-print(cosine_similarity([v2],[v3]));
+# print(v1);
+# print(cosine_similarity([v1],[v2]));
+# print(cosine_similarity([v2],[v3]));
 
-# result = embedding.embed_documents(documents);
-# print(str(result))
+result = embedding.embed_documents(documents);
+print(str(result))
