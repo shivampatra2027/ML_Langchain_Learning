@@ -47,7 +47,7 @@ for i in range(1, len(sentences)):
 
 # Add the final chunk
 if current_chunk:
-    chunks.append(" ".join(current_chunk))
+    chunks.append(" ".join(current_chunk))  
 
 # 6. Print chunks
 print("\nTotal chunks:", len(chunks))
