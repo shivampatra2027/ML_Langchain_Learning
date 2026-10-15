@@ -40,8 +40,7 @@ vector_store = Chroma(
     database=os.environ["CHROMA_DATABASE"],
 )
 
-res = vector_store.get_by_ids(id:Sequqnce["India"])
-print("Chroma is Connected!!");
+
 
 vector_store.add_documents(
     documents=docs,
@@ -58,5 +57,14 @@ print(results);
 
 for i, doc in enumerate(results, start=1):
     print(f"\nResult {i}:")
+    print("Content:", doc.page_content)
+    print("Metadata:", doc.metadata)
+
+
+print("Printing Queries")
+res = vector_store.get_by_ids(["india1"])
+
+for doc in res:
+    print("ID:", doc.id)
     print("Content:", doc.page_content)
     print("Metadata:", doc.metadata)
