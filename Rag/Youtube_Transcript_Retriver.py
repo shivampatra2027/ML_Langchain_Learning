@@ -10,6 +10,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 from langchain_core.caches import InMemoryCache
 from langchain_core.globals import set_llm_cache
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv();
 
 set_llm_cache(InMemoryCache(maxsize=100))
@@ -18,7 +19,7 @@ model = ChatGoogleGenerativeAI(
     temperature=0.5,
     max_tokens=3000
 )
-
+#1) Indexing
 video_url = "https://youtu.be/4781cGLvQUU"
 
 loader = YoutubeLoader.from_youtube_url(
@@ -29,6 +30,15 @@ loader = YoutubeLoader.from_youtube_url(
 
 
 docs=loader.load();
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=800,
+    chunk_overlap=150
+)
+
+chunks = text_splitter.split_documents(docs)
+
+print("Transcript chunks:", len(chunks))
 
 embeddings_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
@@ -44,13 +54,16 @@ vector_store=Chroma(
     persist_directory="my_chroma_db",
     collection_name="simple"
 )
-ids=vector_store.add_documents(docs)
+ids=vector_store.add_documents(chunks)
 print("Document successfully added inside the vector Store!!")
 
 query="What is context??"
-retriever = vector_store.as_retriever(search_kwargs={"k":2})
+#2) Retrival
+retriever = vector_store.as_retriever(search_type="similarity",search_kwargs={"k":2})
+
 result = retriever.invoke(query);
 
+#3) Agumentation
 #One shot Prompting
 prompt = PromptTemplate(
     template=""" 
@@ -90,5 +103,8 @@ print("chain is created successfully!")
 
 print("Processing started...please wait...")
 context = "\n\n".join(doc.page_content for doc in result)
+print(context)
+print("\n\n\n")
+#4) Generation
 res = chain.invoke({"topic": context,"question":query})
 print(res);
