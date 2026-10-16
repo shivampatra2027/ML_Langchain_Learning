@@ -17,7 +17,7 @@ set_llm_cache(InMemoryCache(maxsize=100))
 model = ChatGoogleGenerativeAI(
     model="gemini-3.1-flash-lite",
     temperature=0.5,
-    max_tokens=3000
+    max_tokens=2000
 )
 #1) Indexing
 video_url = "https://youtu.be/4781cGLvQUU"
@@ -57,7 +57,7 @@ vector_store=Chroma(
 ids=vector_store.add_documents(chunks)
 print("Document successfully added inside the vector Store!!")
 
-query="What is context??"
+query="Main Points for success"
 #2) Retrival
 retriever = vector_store.as_retriever(search_type="similarity",search_kwargs={"k":2})
 
